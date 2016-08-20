@@ -9,33 +9,65 @@
 import UIKit
 import CoreLocation
 
-class LocationService: NSObject, CLLocationManagerDelegate{
+public class LocationService: NSObject, CLLocationManagerDelegate{
     
+    public static var sharedInstance = LocationService()
     let locationManager: CLLocationManager
     
     override init() {
         locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        locationManager.requestWhenInUseAuthorization()
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.distanceFilter = 5
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
         
         super.init()
         locationManager.delegate = self
+        
     }
     
     
     func startUpdatingLocation(){
-        locationManager.startUpdatingLocation()
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.startUpdatingLocation()
+        }else{
+            //tell view controllers to show an alert
+            showTurnOnLocationServiceAlert()
+        }
     }
     
     
     //MARK: CLLocationManagerDelegate protocol methods
-    func locationManager(_ manager: CLLocationManager,
+    public func locationManager(_ manager: CLLocationManager,
                                   didUpdateLocations locations: [CLLocation]){
         
         if let newLocation = locations.last{
             print("(\(newLocation.coordinate.latitude), \(newLocation.coordinate.latitude))")
         }        
-    }   
+    }
+    
+    
+    public func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error){
+        if (error as NSError).domain == kCLErrorDomain && (error as NSError).code == CLError.Code.denied.rawValue{
+            //User denied your app access to location information.
+            showTurnOnLocationServiceAlert()
+        }
+    }
+    
+    public func locationManager(_ manager: CLLocationManager,
+                                  didChangeAuthorization status: CLAuthorizationStatus){
+        if status == .authorizedWhenInUse{
+            //You can resume logging by calling startUpdatingLocation here
+        }
+    }
+    
+    func showTurnOnLocationServiceAlert(){
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
+    }    
     
 }
 
