@@ -13,6 +13,7 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
     
     public static var sharedInstance = LocationService()
     let locationManager: CLLocationManager
+    var locationDataArray: [CLLocation]
     
     override init() {
         locationManager = CLLocationManager()
@@ -20,12 +21,15 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.distanceFilter = 5
         
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
+        locationDataArray = [CLLocation]()
         
         super.init()
+        
         locationManager.delegate = self
+        
         
     }
     
@@ -46,6 +50,11 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
         
         if let newLocation = locations.last{
             print("(\(newLocation.coordinate.latitude), \(newLocation.coordinate.latitude))")
+            
+            locationDataArray.append(newLocation)
+            
+            notifiyDidUpdateLocation(newLocation: newLocation)
+            
         }        
     }
     
@@ -69,5 +78,8 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
         NotificationCenter.default.post(name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
     }    
     
+    func notifiyDidUpdateLocation(newLocation:CLLocation){
+        NotificationCenter.default.post(name: Notification.Name(rawValue:"didUpdateLocation"), object: nil, userInfo: ["location" : newLocation])        
+    }
 }
 
