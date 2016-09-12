@@ -14,6 +14,8 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
     public static var sharedInstance = LocationService()
     let locationManager: CLLocationManager
     var locationDataArray: [CLLocation]
+    var useFilter: Bool
+    
     
     override init() {
         locationManager = CLLocationManager()
@@ -25,6 +27,8 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
         locationDataArray = [CLLocation]()
+        
+        useFilter = true
         
         super.init()
         
@@ -51,11 +55,45 @@ public class LocationService: NSObject, CLLocationManagerDelegate{
         if let newLocation = locations.last{
             print("(\(newLocation.coordinate.latitude), \(newLocation.coordinate.latitude))")
             
-            locationDataArray.append(newLocation)
+            var locationAdded: Bool
+            if useFilter{
+                locationAdded = filterAndAddLocation(newLocation)
+            }else{
+                locationDataArray.append(newLocation)
+                locationAdded = true
+            }
             
-            notifiyDidUpdateLocation(newLocation: newLocation)
+            
+            if locationAdded{
+                notifiyDidUpdateLocation(newLocation: newLocation)
+            }
             
         }        
+    }
+    
+    func filterAndAddLocation(_ location: CLLocation) -> Bool{
+        let age = -location.timestamp.timeIntervalSinceNow
+        
+        if age > 10{
+            print("Locaiton is old.")
+            return false
+        }
+        
+        if location.horizontalAccuracy < 0{
+            print("Latitidue and longitude values are invalid.")
+            return false
+        }
+        
+        if location.horizontalAccuracy > 100{
+            print("Accuracy is too low.")
+            return false
+        }
+        
+        print("Location quality is good enough.")
+        locationDataArray.append(location)
+        
+        return true
+        
     }
     
     

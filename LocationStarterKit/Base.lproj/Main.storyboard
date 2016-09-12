@@ -22,8 +22,28 @@
                                 <frame key="frameInset" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="P6u-t6-3rD">
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aT5-bG-SMj">
+                                        <connections>
+                                            <action selector="filterSwitchAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="jIA-YE-2g9"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fkQ-fc-xgt">
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <color key="textColor" white="0.0" alpha="0.50496651785714286" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="aT5-bG-SMj" firstAttribute="top" secondItem="fkQ-fc-xgt" secondAttribute="bottom" constant="4" id="CB5-8i-21n"/>
+                            <constraint firstAttribute="trailing" secondItem="P6u-t6-3rD" secondAttribute="trailing" constant="43" id="Hf8-2A-lAS"/>
+                            <constraint firstItem="fkQ-fc-xgt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="12" id="QwY-3w-cCe"/>
+                            <constraint firstAttribute="trailing" secondItem="fkQ-fc-xgt" secondAttribute="trailing" constant="33" id="ZOn-VM-n7d"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="PVI-2X-MbI" id="mrK-lj-cwZ"/>

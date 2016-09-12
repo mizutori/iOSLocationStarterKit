@@ -21,7 +21,6 @@ class ViewController: UIViewController, MKMapViewDelegate{
     var zoomBlockingTimer: Timer?
     var didInitialZoom: Bool?
     
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -185,5 +184,15 @@ class ViewController: UIViewController, MKMapViewDelegate{
             })
         }
     }
+    
+    @IBAction func filterSwitchAction(_ sender: UISwitch) {
+        if sender.isOn{
+            LocationService.sharedInstance.useFilter = true
+        }else{
+            LocationService.sharedInstance.useFilter = false
+        }
+    }
+    
+
 }
 
