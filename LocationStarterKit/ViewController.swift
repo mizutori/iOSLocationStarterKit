@@ -31,7 +31,7 @@ class ViewController: UIViewController, MKMapViewDelegate{
         self.userAnnotationImage = UIImage(named: "user_position_ball")!
         
         self.accuracyRangeCircle = MKCircle(center: CLLocationCoordinate2D.init(latitude: 41.887, longitude: -87.622), radius: 50)
-        self.mapView.add(self.accuracyRangeCircle!)
+        self.mapView.addOverlay(self.accuracyRangeCircle!)
         
         
         self.didInitialZoom = false
@@ -48,13 +48,13 @@ class ViewController: UIViewController, MKMapViewDelegate{
         // Dispose of any resources that can be recreated.
     }
 
-    func showTurnOnLocationServiceAlert(_ notification: NSNotification){
+    @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
         let alert = UIAlertController(title: "Turn on Location Service", message: "To use location tracking feature of the app, please turn on the location service from the Settings app.", preferredStyle: .alert)
         
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
-            let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
+            let settingsUrl = URL(string: UIApplication.openSettingsURLString)
             if let url = settingsUrl {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
             }
         }
         
@@ -67,7 +67,7 @@ class ViewController: UIViewController, MKMapViewDelegate{
         
     }
     
-    func updateMap(_ notification: NSNotification){
+    @objc func updateMap(_ notification: NSNotification){
         if let userInfo = notification.userInfo{
             
             updatePolylines()
@@ -106,13 +106,13 @@ class ViewController: UIViewController, MKMapViewDelegate{
         self.clearPolyline()
         
         self.polyline = MKPolyline(coordinates: coordinateArray, count: coordinateArray.count)
-        self.mapView.add(polyline as! MKOverlay)
+        self.mapView.addOverlay(polyline as! MKOverlay)
         
     }
     
     func clearPolyline(){
         if self.polyline != nil{
-            self.mapView.remove(self.polyline!)
+            self.mapView.removeOverlay(self.polyline!)
             self.polyline = nil
         }
     }
@@ -120,7 +120,7 @@ class ViewController: UIViewController, MKMapViewDelegate{
     func zoomTo(location: CLLocation){
         if self.didInitialZoom == false{
             let coordinate = location.coordinate
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, 300, 300)
+            let region = MKCoordinateRegion.init(center: coordinate, latitudinalMeters: 300, longitudinalMeters: 300)
             self.mapView.setRegion(region, animated: false)
             self.didInitialZoom = true
         }
@@ -137,9 +137,9 @@ class ViewController: UIViewController, MKMapViewDelegate{
             }
         }
         
-        self.mapView.remove(self.accuracyRangeCircle!)
+        self.mapView.removeOverlay(self.accuracyRangeCircle!)
         self.accuracyRangeCircle = MKCircle(center: location.coordinate, radius: accuracyRadius as CLLocationDistance)
-        self.mapView.add(self.accuracyRangeCircle!)
+        self.mapView.addOverlay(self.accuracyRangeCircle!)
         
         if self.userAnnotation != nil{
             self.mapView.removeAnnotation(self.userAnnotation!)
@@ -196,3 +196,8 @@ class ViewController: UIViewController, MKMapViewDelegate{
 
 }
 
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
+}
