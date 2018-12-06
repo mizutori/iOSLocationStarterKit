@@ -37,10 +37,10 @@ class ViewController: UIViewController, MKMapViewDelegate{
         self.didInitialZoom = false
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.updateMap(_:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateMap(notification:)), name: Notification.Name(rawValue:"didUpdateLocation"), object: nil)
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.showTurnOnLocationServiceAlert(_:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showTurnOnLocationServiceAlert(notification:)), name: Notification.Name(rawValue:"showTurnOnLocationServiceAlert"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,13 +48,13 @@ class ViewController: UIViewController, MKMapViewDelegate{
         // Dispose of any resources that can be recreated.
     }
 
-    @objc func showTurnOnLocationServiceAlert(_ notification: NSNotification){
+    @objc func showTurnOnLocationServiceAlert(notification: NSNotification){
         let alert = UIAlertController(title: "Turn on Location Service", message: "To use location tracking feature of the app, please turn on the location service from the Settings app.", preferredStyle: .alert)
         
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) -> Void in
             let settingsUrl = URL(string: UIApplication.openSettingsURLString)
             if let url = settingsUrl {
-                UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
         
@@ -67,7 +67,7 @@ class ViewController: UIViewController, MKMapViewDelegate{
         
     }
     
-    @objc func updateMap(_ notification: NSNotification){
+    @objc func updateMap(notification: NSNotification){
         if let userInfo = notification.userInfo{
             
             updatePolylines()
@@ -193,11 +193,4 @@ class ViewController: UIViewController, MKMapViewDelegate{
         }
     }
     
-
-}
-
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
