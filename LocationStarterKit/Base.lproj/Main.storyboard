@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11191" systemVersion="16A286a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.23.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.16.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -18,13 +21,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PVI-2X-MbI">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="PVI-2X-MbI">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="P6u-t6-3rD">
+                                <rect key="frame" x="283" y="63.5" width="49" height="31"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aT5-bG-SMj">
+                                        <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                         <connections>
                                             <action selector="filterSwitchAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="jIA-YE-2g9"/>
                                         </connections>
@@ -32,6 +36,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fkQ-fc-xgt">
+                                <rect key="frame" x="287" y="32" width="55" height="27.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                 <color key="textColor" white="0.0" alpha="0.50496651785714286" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -39,10 +44,14 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PVI-2X-MbI" secondAttribute="trailing" id="AXN-ob-0mr"/>
                             <constraint firstItem="aT5-bG-SMj" firstAttribute="top" secondItem="fkQ-fc-xgt" secondAttribute="bottom" constant="4" id="CB5-8i-21n"/>
                             <constraint firstAttribute="trailing" secondItem="P6u-t6-3rD" secondAttribute="trailing" constant="43" id="Hf8-2A-lAS"/>
+                            <constraint firstItem="PVI-2X-MbI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="KB4-8U-Uov"/>
                             <constraint firstItem="fkQ-fc-xgt" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="12" id="QwY-3w-cCe"/>
                             <constraint firstAttribute="trailing" secondItem="fkQ-fc-xgt" secondAttribute="trailing" constant="33" id="ZOn-VM-n7d"/>
+                            <constraint firstAttribute="bottom" secondItem="PVI-2X-MbI" secondAttribute="bottom" id="mgy-be-5tM"/>
+                            <constraint firstItem="PVI-2X-MbI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="uUB-mb-5eZ"/>
                         </constraints>
                     </view>
                     <connections>
